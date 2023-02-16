@@ -20,6 +20,14 @@ public class ReservationController {
 
     @PostMapping("submit")
     public String submit(Model model) {
+        List<String> days = new ArrayList<>();
+        days.add("Saturday");
+        days.add("Monday");
+        days.add("Wednesday");
+        ReservationForm reservationForm = new ReservationForm();
+        reservationForm.setDays(days);
+        model.addAttribute("form", reservationForm);
+
         ReservationForm form = ((ReservationForm) model.getAttribute("form"));
         if (form.getDays().isEmpty()) {
             model.addAttribute("error", "The day can not empty");
@@ -37,6 +45,7 @@ public class ReservationController {
 
     @PostMapping("submitTime")
     public String submitTime(Model model) {
+
         ReservationForm form = ((ReservationForm) model.getAttribute("form"));
         List<LocalTime> times = form.getTimes();
         if (times.size() != 1) {
