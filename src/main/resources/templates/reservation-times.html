@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Times</title>
+</head>
+<body>
+<form th:action="@{/submitTime}" method="post">
+    <label>Available Times:<br>
+        <input type="checkbox" th:each="time : ${times}" th:text="${time}">
+    </label>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

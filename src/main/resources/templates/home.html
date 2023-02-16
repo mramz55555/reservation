@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+<h1>
+    Choose a day for reservation date:
+</h1>
+
+<ul>
+    <li style="fill: darkred" th:text="${error}"/>
+</ul>
+
+<form th:action="@{/submit}" method="post" th:object="${form}">
+    <input type="checkbox" id="Saturday" th:name="saturday" value="Saturday" th:field="*{days.get(0)}">
+    <label for="Saturday"> Saturday</label><br>
+    <input type="checkbox" th:name="monday" id="monday" value="Monday" th:field="*{days.get(1)}">
+    <label for="monday"> Monday</label><br>
+    <input type="checkbox" th:name="wednesday" id="Wednesday" value="Wednesday" th:field="*{days.get(2)}">
+    <label for="Wednesday"> Wednesday</label>
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
