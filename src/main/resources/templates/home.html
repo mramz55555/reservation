@@ -11,15 +11,15 @@
 </h1>
 
 <ul>
-    <li style="fill: darkred" th:text="${error}"/>
+    <li style="fill: darkred" th:if="!${error.isEmpty()}" th:text="${error}"/>
 </ul>
 
-<form th:action="@{/submit}" method="post" th:object="${form}">
-    <input type="checkbox" id="Saturday" th:name="saturday" value="Saturday" th:field="*{days.get(0)}">
+<form method="post" th:action="@{/submit}">
+    <input id="Saturday" th:name="saturday" type="checkbox" value="Saturday">
     <label for="Saturday"> Saturday</label><br>
-    <input type="checkbox" th:name="monday" id="monday" value="Monday" th:field="*{days.get(1)}">
+    <input id="monday" th:name="monday" type="checkbox" value="Monday">
     <label for="monday"> Monday</label><br>
-    <input type="checkbox" th:name="wednesday" id="Wednesday" value="Wednesday" th:field="*{days.get(2)}">
+    <input id="Wednesday" th:name="wednesday" type="checkbox" value="Wednesday">
     <label for="Wednesday"> Wednesday</label>
     <br><br>
     <input type="submit" value="Submit">

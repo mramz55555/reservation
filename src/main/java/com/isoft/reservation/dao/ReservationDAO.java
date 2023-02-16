@@ -18,6 +18,6 @@ public class ReservationDAO {
     }
 
     public boolean isReserved(LocalTime time){
-        return entityManager.createQuery("select r.reserved_date from reserved_days").getSingleResult()!=null;
+        return entityManager.createQuery("select r.reserved_date from reserved_days r").getSingleResult() != null;
     }
 }
