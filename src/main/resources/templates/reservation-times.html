@@ -8,9 +8,9 @@
 <ul>
     <li style="fill: darkred" th:if="!${errorMessage.isEmpty()}" th:text="${errorMessage}"/>
 </ul>
-<form th:action="@{/submitTime}" method="post">
+<form method="post" th:action="@{/submitTime}" th:object="times">
     Available Times:<br><br>
-    <th:block th:each="time : ${times.getAvailableTimes()}">
+    <th:block th:each="time : ${times.getAvailableTimes()}" th:field="*{ava}">
         <input th:text="${time}" th:value="${time}" type="checkbox"><br><br>
     </th:block>
     <input type="submit" value="Submit">
