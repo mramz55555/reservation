@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Controller
 public class ReservationController {
@@ -50,11 +51,12 @@ public class ReservationController {
             return "reservation-times";
         }
 
-//        LocalTime time = reservationTime.getTimes().stream().filter(Objects::nonNull).toList().get(0);
-//        if (dao.isReserved(time)) {
-//            model.addAttribute("error", "this time is reserved");
-//            return "reservation-times";
-//        }
+        LocalTime time = reservationTime.getAvailableTimes().stream().filter(Objects::nonNull).toList().get(0);
+        if (dao.isReserved(time)) {
+            model.addAttribute("error", "this time is reserved");
+            return "reservation-times";
+        }
         return "home";
     }
-}
+    }
+

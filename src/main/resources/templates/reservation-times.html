@@ -10,7 +10,7 @@
 </ul>
 <form method="post" th:action="@{/submitTime}" th:object="times">
     Available Times:<br><br>
-    <th:block th:each="time : ${times.getAvailableTimes()}" th:field="*{ava}">
+    <th:block th:each="time : ${times.getAvailableTimes()}" th:field="*{availableTimes}">
         <input th:text="${time}" th:value="${time}" type="checkbox"><br><br>
     </th:block>
     <input type="submit" value="Submit">
