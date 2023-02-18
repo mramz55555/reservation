@@ -1,14 +1,15 @@
 package com.isoft.reservation.controller;
 
 import com.isoft.reservation.dao.ReservationDAO;
-import com.isoft.reservation.model.ReservationForm;
+import com.isoft.reservation.model.ReservationDay;
+import com.isoft.reservation.model.ReservationTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class ReservationController {
@@ -18,46 +19,42 @@ public class ReservationController {
         this.dao = dao;
     }
 
-    @PostMapping("submit")
-    public String submit(Model model) {
-        List<String> days = new ArrayList<>();
-        days.add("Saturday");
-        days.add("Monday");
-        days.add("Wednesday");
-        ReservationForm reservationForm = new ReservationForm();
-        reservationForm.setDays(days);
-        model.addAttribute("form", reservationForm);
+    @GetMapping
+    public String showMain(Model model) {
+        model.addAttribute("activeDays", new ReservationDay());
+        model.addAttribute("errorMessage", "");
+        return "home";
+    }
 
-        ReservationForm form = ((ReservationForm) model.getAttribute("form"));
-        if (form.getDays().isEmpty()) {
-            model.addAttribute("error", "The day can not empty");
+    @PostMapping("submit")
+    public String submit(Model model, @ModelAttribute("activeDays") ReservationDay reservationDay,
+                         @ModelAttribute("errorMessage") String errorMessage) {
+        if (reservationDay.getTheDay() == null) {
+            model.addAttribute("errorMessage", "The day can not be empty");
             return "home";
         }
-        List<LocalTime> times = new ArrayList<>();
+        ReservationTime times = new ReservationTime();
         LocalTime basTime = LocalTime.of(9, 0, 0);
         for (int i = 1; i < 5; i++)
-            times.add(basTime.plusHours(2 * i));
-        form.setTimes(times);
+            times.getAvailableTimes().add(basTime.plusHours(2 * i));
         model.addAttribute("times", times);
+        model.addAttribute("errorMessage", "");
         return "reservation-times";
     }
 
-
     @PostMapping("submitTime")
-    public String submitTime(Model model) {
+    public String submitTime(Model model, @ModelAttribute("times") ReservationTime reservationTime) {
 
-        ReservationForm form = ((ReservationForm) model.getAttribute("form"));
-        List<LocalTime> times = form.getTimes();
-        if (times.size() != 1) {
-            model.addAttribute("error", "specify the time");
+        if (reservationTime.getAvailableTimes().size() != 1) {
+            model.addAttribute("errorMessage", "Only specify one time");
             return "reservation-times";
         }
 
-        LocalTime time = times.get(0);
-        if (dao.isReserved(time)) {
-            model.addAttribute("error", "this time is reserved");
-            return "reservation-times";
-        }
+//        LocalTime time = reservationTime.getTimes().stream().filter(Objects::nonNull).toList().get(0);
+//        if (dao.isReserved(time)) {
+//            model.addAttribute("error", "this time is reserved");
+//            return "reservation-times";
+//        }
         return "home";
     }
 }

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Reservation Times</title>
 </head>
 <body>
+<ul>
+    <li style="fill: darkred" th:if="!${errorMessage.isEmpty()}" th:text="${errorMessage}"/>
+</ul>
 <form th:action="@{/submitTime}" method="post">
-    <label>Available Times:<br>
-        <input type="checkbox" th:each="time : ${times}" th:text="${time}">
-    </label>
+    Available Times:<br><br>
+    <th:block th:each="time : ${times.getAvailableTimes()}">
+        <input th:text="${time}" th:value="${time}" type="checkbox"><br><br>
+    </th:block>
     <input type="submit" value="Submit">
 </form>
 </body>
