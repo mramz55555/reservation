@@ -13,11 +13,7 @@ public class ReservationDAO {
         this.entityManager = entityManager;
     }
 
-    public void insert(LocalTime time){
-        entityManager.createNativeQuery("insert into reserved_date (reserved_date) values ("+time+")");
-    }
-
     public boolean isReserved(LocalTime time){
-        return entityManager.createQuery("select r.reserved_date from reserved_days r").getSingleResult() != null;
+        return entityManager.createQuery("select r from reserved_days r where r.reserved_dat="+time).getSingleResult() != null;
     }
 }
