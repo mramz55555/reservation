@@ -56,6 +56,7 @@ public class ReservationController {
             model.addAttribute("error", "this time is reserved");
             return "reservation-times";
         }
+        dao.persist(time);
         return "home";
     }
     }
